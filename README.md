@@ -103,7 +103,7 @@ __终端或测试文件：__
 
 
 
-![pcb](/Users/liangsiqi/Documents/Python/Process-and-Resource-Management-Design/PCB.png)
+![pcb](https://github.com/AgentDS/Process-Resource-Management/raw/master/PCB.png)
 
 
 
@@ -129,7 +129,7 @@ __终端或测试文件：__
 
 ```cr B 1```
 
-数据结构间关系应该为：![进程块间关系](/Users/liangsiqi/Documents/Python/Process-and-Resource-Management-Design/进程块间关系.png)
+数据结构间关系应该为：![进程块间关系](https://github.com/AgentDS/Process-Resource-Management/raw/master/进程块间关系.png)
 
 * 撤销进程
 
@@ -169,7 +169,7 @@ __资源管理块RCB : __
 
 * Waiting_List : list of blocked process
 
-  ![RCB](/Users/liangsiqi/Documents/Python/Process-and-Resource-Management-Design/RCB.png)
+  ![RCB](https://github.com/AgentDS/Process-Resource-Management/raw/master/RCB.png)
 
 #### 请求资源
 
