@@ -1,0 +1,1 @@
+init x x x x p p q q r r x p q r x x x p x 

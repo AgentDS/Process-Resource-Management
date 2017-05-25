@@ -1,0 +1,18 @@
+init x x x x p p q q r r x p q r x x 
+===============================Current Process Information===============================
+PID      Status     Priority     Parent     FirstChild     ElderBrother    YoungerBrother
+init     ready      0            None       x              None            None 
+x        running    1            init       p              None            None 
+p        blocked    1            x          None           None            q 
+q        blocked    1            x          None           p               r 
+r        blocked    1            x          None           q               None 
+
+x 
+=========Current Resource Information=========
+     initial  remain   Wait List
+R1:  1        1        None Process is Waiting
+R2:  2        1        r;
+R3:  3        2        None Process is Waiting
+R4:  4        1        None Process is Waiting
+
+p x 
