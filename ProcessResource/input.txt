@@ -15,7 +15,9 @@ req R4 2
 req R2 2
 to
 lp
-de q
 lr
+pinfo x p q r
+de q
+pinfo x p q r
 to
 to
