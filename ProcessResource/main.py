@@ -25,6 +25,9 @@ for line in ShellTXT:
     commandList = line.strip().split()
     if len(commandList) >= 1:
         command = commandList[0]
+        if command != 'lr' and command != 'lp' and command != 'pinfo':
+            print('')
+            print(commandList)
         if command == 'init':
             prm.store()
             print(prm.pcb[prm.Current_Running].pid, file=outFile,end=' ')
@@ -75,9 +78,11 @@ for line in ShellTXT:
                 print("error (invalid request)", file=outFile, end=' ')
                 print("error (invalid request)", end=' ')
         elif command == 'lr':
-            prm.Resource_Info(outFile)
+            prm.Resource_Listing(outFile)
         elif command == 'lp':
-            prm.Process_Info(outFile)
+            prm.Process_Listing(outFile)
+        elif command == 'pinfo':
+            prm.Process_Info(commandList[1:], outFile)
         elif command == 'rel':
             name = commandList[1]
             unit = int(commandList[2])
@@ -127,7 +132,3 @@ for line in ShellTXT:
         print('\nend')
 
 outFile.close()
-
-
-
-

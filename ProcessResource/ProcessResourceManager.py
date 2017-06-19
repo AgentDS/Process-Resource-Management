@@ -36,7 +36,7 @@ class PCB:
             tmp_resource.append(resource())
         self.Other_Resource = tmp_resource
 
-class PRM:
+class PRM: 
     def __init__(self):
         self.R1 = RCB()
         self.R1.rid = "R1"
@@ -162,18 +162,20 @@ class PRM:
                 self.pcb[i].pid = " "
                 self.pcb[i].type = "ready"
                 self.pcb[i].parent = -1
-                self.pcb[i].child = -1
+                elder = self.pcb[i].elder
                 self.pcb[i].elder = -1
+                younger = self.pcb[i].younger
                 self.pcb[i].younger = -1
                 self.pcb[i].priority = -1
                 for j in range(4):
                     self.pcb[i].Other_Resource[j].rid = -1
                     self.pcb[i].Other_Resource[j].used = 0
                     self.pcb[i].Other_Resource[0].Wait_Request = 0
+        for i in range(20):
             if self.pcb[i].elder == n:
-                self.pcb[i].elder = -1
+                self.pcb[i].elder = elder
             if self.pcb[i].younger == n:
-                self.pcb[i].younger = -1
+                self.pcb[i].younger = younger
         self.Scheduler()
 
     def contain(self, name):
@@ -222,11 +224,11 @@ class PRM:
             while len(self.rl[i]) != 0:
                 self.rl[i].pop()
 
-    def Resource_Info(self, outFile):
+    def Resource_Listing(self, outFile):
         nameDict = {}
-        print('\n=========Current Resource Information=========', file=outFile)
+        print('\n\n=================Resource List=================', file=outFile)
         print('     initial  remain   Wait List',file=outFile)
-        print('\n=========Current Resource Information=========')
+        print('\n\n=================Resource List=================')
         print('     initial  remain   Wait List')
         for i in range(20):
             nameDict[i] = self.pcb[i].pid
@@ -250,53 +252,80 @@ class PRM:
         print('', file=outFile)
         print('')
 
-    def Process_Info(self, outFile):
+
+    def Process_Listing(self, outFile):
         nameDict = {}
         for i in range(20):
             nameDict[i] = self.pcb[i].pid
-        print('\n===============================Current Process Information===============================', file=outFile)
-        print('\n===============================Current Process Information===============================')
-        print('PID      Status     Priority     Parent     FirstChild     ElderBrother    YoungerBrother', file=outFile)
-        print('PID      Status     Priority     Parent     FirstChild     ElderBrother    YoungerBrother')
+        print('\n\n========Process List========', file=outFile)
+        print('\n\n========Process List========')
+        print('PID      Status     Priority', file=outFile)
+        print('PID      Status     Priority')
         for i in range(20):
             if self.pcb[i].pid != ' ':
                 print(self.pcb[i].pid, file=outFile, end=(9 - len(self.pcb[i].pid)) * ' ')
                 print(self.pcb[i].pid, end=(9 - len(self.pcb[i].pid)) * ' ')
                 print(self.pcb[i].type, file=outFile, end=(11 - len(self.pcb[i].type)) * ' ')
                 print(self.pcb[i].type, end=(11 - len(self.pcb[i].type)) * ' ')
-                print(self.pcb[i].priority, file=outFile, end=(13 - len(str(self.pcb[i].priority))) * ' ')
-                print(self.pcb[i].priority, end=(13 - len(str(self.pcb[i].priority))) * ' ')
-                if self.pcb[i].parent != -1:
-                    parentPid = nameDict[self.pcb[i].parent]
-                    print(parentPid, file=outFile, end=(11 - len(parentPid)) * ' ')
-                    print(parentPid, end=(11 - len(parentPid)) * ' ')
-                else:
-                    print('None', file=outFile, end=7 * ' ')
-                    print('None', end=7 * ' ')
-                if self.pcb[i].child != -1:
-                    childPid = nameDict[self.pcb[i].child]
-                    print(childPid, file=outFile, end=(15 - len(childPid)) * ' ')
-                    print(childPid, end=(15 - len(childPid)) * ' ')
-                else:
-                    print('None', file=outFile, end=11 * ' ')
-                    print('None', end=11 * ' ')
-                if self.pcb[i].elder != -1:
-                    elderPid = nameDict[self.pcb[i].elder]
-                    print(elderPid, file=outFile, end=(16 - len(elderPid)) * ' ')
-                    print(elderPid, end=(16 - len(elderPid)) * ' ')
-                else:
-                    print('None', file=outFile, end=12 * ' ')
-                    print('None', end=12 * ' ')
-                if self.pcb[i].younger != -1:
-                    youngerPid = nameDict[self.pcb[i].younger]
-                    print(youngerPid, file=outFile, end=' ')
-                    print(youngerPid, end=' ')
-                else:
-                    print('None', file=outFile,end=' ')
-                    print('None',end=' ')
+                print(self.pcb[i].priority, file=outFile, end=' ')
+                print(self.pcb[i].priority, end=' ')
                 print('', file=outFile)
                 print('')
-        print('',file=outFile)
+        print('', file=outFile)
+        print('')
+
+    def Process_Info(self, pidList, outFile):
+        nameDict = {}
+        for i in range(20):
+            nameDict[i] = self.pcb[i].pid
+        print('\n\n===================================Process Information===================================', file=outFile)
+        print('\n\n===================================Process Information===================================')
+        print('PID      Status     Priority     Parent     FirstChild     ElderBrother    YoungerBrother', file=outFile)
+        print('PID      Status     Priority     Parent     FirstChild     ElderBrother    YoungerBrother')
+        for pid in pidList:
+            for i in range(20):
+                if self.pcb[i].pid == pid:
+                    print(self.pcb[i].pid, file=outFile, end=(9 - len(self.pcb[i].pid)) * ' ')
+                    print(self.pcb[i].pid, end=(9 - len(self.pcb[i].pid)) * ' ')
+                    print(self.pcb[i].type, file=outFile, end=(11 - len(self.pcb[i].type)) * ' ')
+                    print(self.pcb[i].type, end=(11 - len(self.pcb[i].type)) * ' ')
+                    print(self.pcb[i].priority, file=outFile, end=(13 - len(str(self.pcb[i].priority))) * ' ')
+                    print(self.pcb[i].priority, end=(13 - len(str(self.pcb[i].priority))) * ' ')
+                    if self.pcb[i].parent != -1:
+                        parentPid = nameDict[self.pcb[i].parent]
+                        print(parentPid, file=outFile, end=(11 - len(parentPid)) * ' ')
+                        print(parentPid, end=(11 - len(parentPid)) * ' ')
+                    else:
+                        print('None', file=outFile, end=7 * ' ')
+                        print('None', end=7 * ' ')
+                    if self.pcb[i].child != -1:
+                        childPid = nameDict[self.pcb[i].child]
+                        print(childPid, file=outFile, end=(15 - len(childPid)) * ' ')
+                        print(childPid, end=(15 - len(childPid)) * ' ')
+                    else:
+                        print('None', file=outFile, end=11 * ' ')
+                        print('None', end=11 * ' ')
+                    if self.pcb[i].elder != -1:
+                        elderPid = nameDict[self.pcb[i].elder]
+                        print(elderPid, file=outFile, end=(16 - len(elderPid)) * ' ')
+                        print(elderPid, end=(16 - len(elderPid)) * ' ')
+                    else:
+                        print('None', file=outFile, end=12 * ' ')
+                        print('None', end=12 * ' ')
+                    if self.pcb[i].younger != -1:
+                        youngerPid = nameDict[self.pcb[i].younger]
+                        print(youngerPid, file=outFile, end=' ')
+                        print(youngerPid, end=' ')
+                    else:
+                        print('None', file=outFile,end=' ')
+                        print('None',end=' ')
+                    print('', file=outFile)
+                    print('')
+                    break
+            if self.pcb[i].pid == ' ':
+                print('Process ' + pid + ' does not exist !!', file=outFile)
+                print('Process ' + pid + ' does not exist !!')
+        print('', file=outFile)
         print('')
 
 
